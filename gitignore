@@ -1,0 +1,56 @@
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+wp-content/cache/
+wp-content/cache/supercache/
+
+# IDE et éditeurs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+error_log
+debug.log
+
+# Packages
+*.zip
+*.tar.gz
+*.rar
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.swp
+*~
+
+# Node modules (si build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environnement
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Tests
+/vendor/
+composer.lock
+phpunit.xml
+.phpunit.result.cache
+
+# Build
+/build/
+/dist/
