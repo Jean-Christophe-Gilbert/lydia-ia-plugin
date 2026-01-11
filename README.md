@@ -1,10 +1,17 @@
-# Lydia IA 🤖
+<div align="center">
+  <img src="assets/lydia-logo.jpg" alt="Lydia IA" width="200" style="border-radius: 50%;">
+  
+  # Lydia IA
+  
+  **Un chatbot IA souverain qui connaît votre site WordPress**
+  
+  [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
+  [![WordPress Plugin](https://img.shields.io/badge/WordPress-5.8%2B-blue.svg)](https://wordpress.org)
+  [![Mistral AI](https://img.shields.io/badge/Powered%20by-Mistral%20AI-orange.svg)](https://mistral.ai)
+  [![Made in France](https://img.shields.io/badge/Made%20in-France%20🇫🇷-blue.svg)](https://ia1.fr)
+</div>
 
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0)
-[![WordPress Plugin](https://img.shields.io/badge/WordPress-5.8%2B-blue.svg)](https://wordpress.org)
-[![Mistral AI](https://img.shields.io/badge/Powered%20by-Mistral%20AI-orange.svg)](https://mistral.ai)
-
-**Un chatbot IA souverain qui connaît votre site WordPress**
+---
 
 Lydia est un plugin WordPress open source qui intègre une intelligence artificielle locale sur votre site. Propulsé par Mistral AI (entreprise française), Lydia indexe automatiquement votre contenu et aide vos visiteurs à naviguer sur votre site.
 
