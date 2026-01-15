@@ -1,65 +1,116 @@
-# Changelog
+# Changelog Lydia
 
-Toutes les modifications notables de ce projet seront documentées dans ce fichier.
+Toutes les modifications notables du plugin Lydia seront documentées dans ce fichier.
 
-Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
-et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+## [2.2.8] - 2025-01-15
 
-## [2.1.0] - 2025-01-11
+### 🚀 Optimisations de performance
+- **Réduction du nombre de sources** : Passage de 3 à 2 sources pour une réponse plus rapide
+- **Contenu par source réduit** : 800 caractères au lieu de 2000 pour optimiser la vitesse
+- **Réponses plus courtes** : max_tokens réduit à 250 (au lieu de 300)
+- **Temperature ajustée** : Augmentée à 0.5 pour une génération plus rapide
+- **Timeout optimisé** : Réduit à 30 secondes pour détecter plus vite les problèmes
+- **Messages d'erreur améliorés** : Message plus clair en cas de timeout
 
-### Ajouté
-- Plugin vraiment générique - s'adapte automatiquement au nom du site
-- Extraction intelligente des mots-clés pour une meilleure recherche
-- Option pour activer/désactiver Wikipedia dans les réglages
-- Affichage des dates dans les sources citées
-- Amélioration du prompt système pour Mistral
-
-### Modifié
-- Recherche toujours prioritaire dans le contenu local avant Wikipedia
-- Interface utilisateur plus claire et moderne
-- Optimisation des performances de recherche
-
-### Corrigé
-- Problèmes d'encodage avec les caractères spéciaux
-- Gestion améliorée des erreurs API
-- Responsive design sur petits écrans
-
-## [2.0.0] - 2024-12-15
-
-### Ajouté
-- Version initiale publique
-- Intégration Mistral AI
-- Recherche dans le contenu WordPress
-- Support Wikipedia optionnel
-- Design moderne et responsive
-- Shortcode `[lydia_chat]`
-- Page d'administration WordPress
-- Extraction automatique des mots-clés
-- Citations des sources avec liens cliquables
-
-### Sécurité
-- Validation et sanitisation des entrées utilisateur
-- Protection contre les injections SQL
-- Nonces pour les requêtes AJAX
-
-## [1.0.0-beta] - 2024-11-01
-
-### Ajouté
-- Prototype initial
-- Intégration de base avec Mistral AI
-- Interface de chat simple
+### 🎯 Objectif
+Cette version vise des réponses en **moins de 10 secondes** pour une meilleure expérience utilisateur.
 
 ---
 
-## Types de changements
+## [2.2.7] - 2025-01-15
 
-- **Ajouté** : pour les nouvelles fonctionnalités
-- **Modifié** : pour les changements dans les fonctionnalités existantes
-- **Déprécié** : pour les fonctionnalités qui seront bientôt supprimées
-- **Supprimé** : pour les fonctionnalités supprimées
-- **Corrigé** : pour les corrections de bugs
-- **Sécurité** : en cas de vulnérabilités
+### 🔧 Corrections et ajustements
+- Ajustements mineurs de performance
+- Tests de stabilité
 
-[2.1.0]: https://github.com/votre-organisation/lydia-ia-plugin/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/votre-organisation/lydia-ia-plugin/compare/v1.0.0-beta...v2.0.0
-[1.0.0-beta]: https://github.com/votre-organisation/lydia-ia-plugin/releases/tag/v1.0.0-beta
+---
+
+## [2.2.6] - 2025-01-15
+
+### ✨ Design "Less is more" finalisé
+- **Zéro URL dans le texte** : Mistral AI ne peut plus inclure d'URLs dans ses réponses
+- **Prompt ultra-strict** : Instructions explicites avec exemples BON/INTERDIT
+- **Contexte nettoyé** : Les URLs sont retirées du contexte envoyé à l'API
+- **Design final parfait** : Texte propre + liens bleus en dessous
+
+### 🎨 Améliorations visuelles
+- **Suppression de tous les pictogrammes/icônes** (📚, 🛍️, 📄, 📰)
+- **Suppression du fond bleu ciel**
+- **Suppression du titre "Sources :"**
+- **Sources sous le texte** : Affichage vertical optimal pour mobile
+
+---
+
+## [2.2.5] - 2025-01-15
+
+### 🎨 Design minimaliste
+- Suppression de tous les éléments visuels superflus
+- Design épuré "Less is more"
+
+---
+
+## [2.2.4] - 2025-01-15
+
+### ⚡ Optimisations
+- **Timeout augmenté** : De 30s à 60s
+- **Contexte optimisé** : 3 sources au lieu de 5
+- **Contenu par source** : Réduit à 2000 caractères
+- **max_tokens** : Réduit à 300
+- **Messages d'erreur** : Améliorés pour plus de clarté
+
+---
+
+## [2.2.3] - 2025-01-15
+
+### 🎨 Améliorations visuelles
+- Liens en bleu Google (#1A73E8)
+- Prompt optimisé
+- Logs de debug console
+
+---
+
+## [2.2.2] - 2025-01-15
+
+### ✨ Affichage des sources
+- Affichage des sources sous chaque réponse
+- Icônes distinctives par type de contenu
+- Section sources avec design soigné
+
+---
+
+## [2.2.1] - 2025-01-15
+
+### 🛒 Support WooCommerce
+- Support complet WooCommerce
+- Indexation des produits avec prix et catégories
+- Statistiques incluant les produits
+
+---
+
+## [2.2.0] - 2025-01-15
+
+### 🎉 Version majeure - Système d'indexation complet
+- **Système d'indexation** : Articles, pages, produits indexés automatiquement
+- **Page d'administration** : Interface complète pour gérer l'indexation
+- **Recherche intelligente** : Algorithme de scoring par pertinence
+- **Auto-indexation** : Mise à jour automatique lors de la publication
+- **Wikipedia optionnel** : Peut être désactivé pour utiliser uniquement le contenu local
+- **Logs de debug** : Système de logs pour diagnostiquer les problèmes
+
+---
+
+## Versions antérieures
+
+Les versions antérieures à 2.2.0 n'étaient pas versionnées de manière systématique.
+
+---
+
+## Légende
+
+- 🎉 Nouvelle fonctionnalité majeure
+- ✨ Nouvelle fonctionnalité
+- 🚀 Optimisation de performance
+- 🔧 Correction de bug
+- 🎨 Amélioration visuelle/UX
+- 🛒 WooCommerce
+- 📝 Documentation
