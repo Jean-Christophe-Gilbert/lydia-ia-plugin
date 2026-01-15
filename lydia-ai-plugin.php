@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name: Lydia
+ * Plugin Name: Lydia 
  * Plugin URI: https://ia1.fr
- * Description: Assistante IA locale avec indexation complète, recherche intelligente et souveraine fabriquée en France à Niort
- * Version: 2.2.6
- * Author: IA1
+ * Description: À la découverte d’une nouvelle IA : la vôtre.
+ * Version: 2.2.8
+ * Author: Jean-Christophe Gilbert
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-define('LYDIA_VERSION', '2.2.6');
+define('LYDIA_VERSION', '2.2.8');
 define('LYDIA_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LYDIA_LOG_FILE', WP_CONTENT_DIR . '/lydia-debug.log');
 
@@ -441,7 +441,6 @@ class Lydia_WordPress {
     public function register_settings() {
         register_setting('lydia_settings', 'lydia_mistral_api_key');
         register_setting('lydia_settings', 'lydia_model', array('default' => 'mistral-small-latest'));
-        register_setting('lydia_settings', 'lydia_use_wikipedia', array('default' => false)); // Désactivé par défaut
     }
     
     public function settings_page() {
@@ -492,23 +491,6 @@ class Lydia_WordPress {
                         </td>
                     </tr>
                     
-                    <tr>
-                        <th scope="row">Options</th>
-                        <td>
-                            <label>
-                                <input type="checkbox" 
-                                       id="lydia_use_wikipedia" 
-                                       name="lydia_use_wikipedia" 
-                                       value="1"
-                                       <?php checked(get_option('lydia_use_wikipedia', false)); ?>
-                                />
-                                Utiliser Wikipédia pour enrichir les réponses
-                            </label>
-                            <p class="description">
-                                Si coché, Lydia complétera ses réponses avec des informations de Wikipédia.
-                            </p>
-                        </td>
-                    </tr>
                 </table>
                 
                 <?php submit_button(); ?>
@@ -614,7 +596,7 @@ class Lydia_WordPress {
      * Construire le contexte à partir du contenu du site
      */
     private function build_context_from_content($query) {
-        $relevant_items = $this->search_relevant_content($query, 3); // Réduit de 5 à 3 pour optimiser
+        $relevant_items = $this->search_relevant_content($query, 2); // Réduit à 2 pour vitesse maximale
         
         if (empty($relevant_items)) {
             return array(
@@ -627,9 +609,9 @@ class Lydia_WordPress {
         $sources = array();
         
         foreach ($relevant_items as $item) {
-            $context .= "=== " . $item['title'] . " ===\n"; // URL retirée du contexte
-            // Limiter encore plus le contenu pour éviter les timeouts
-            $short_content = substr($item['content'], 0, 2000);
+            $context .= "=== " . $item['title'] . " ===\n";
+            // Réduit à 800 caractères max par item pour vitesse optimale
+            $short_content = substr($item['content'], 0, 800);
             $context .= $short_content . "\n\n";
             
             // Ajouter à la liste des sources
@@ -650,6 +632,7 @@ class Lydia_WordPress {
      * Gérer les requêtes de chat
      */
     public function handle_chat() {
+        $time_start = microtime(true);
         check_ajax_referer('lydia_chat_nonce', 'nonce');
         
         $query = sanitize_text_field($_POST['query'] ?? '');
@@ -666,23 +649,27 @@ class Lydia_WordPress {
         }
         
         // Construire le contexte et récupérer les sources
+        $time_before_context = microtime(true);
         $context_data = $this->build_context_from_content($query);
+        $time_after_context = microtime(true);
         $context = $context_data['context'];
         $sources = $context_data['sources'];
-        
-        // Enrichir avec Wikipedia si activé
-        $use_wikipedia = get_option('lydia_use_wikipedia', false);
-        if ($use_wikipedia) {
-            $wiki_content = $this->search_wikipedia($query);
-            if (!empty($wiki_content)) {
-                $context .= "\n\n=== Informations complémentaires (Wikipedia) ===\n" . $wiki_content;
-            }
-        }
         
         lydia_log('Contexte construit', array('length' => strlen($context), 'sources' => count($sources)));
         
         // Appeler Mistral AI
+        $time_before_mistral = microtime(true);
         $result = $this->call_mistral_ai($query, $context, $sources);
+        $time_after_mistral = microtime(true);
+        
+        $time_total = microtime(true) - $time_start;
+        
+        // Log des performances
+        lydia_log('⏱️ PERFORMANCE', array(
+            'total' => round($time_total, 2) . 's',
+            'contexte' => round($time_after_context - $time_before_context, 2) . 's',
+            'mistral' => round($time_after_mistral - $time_before_mistral, 2) . 's'
+        ));
         
         if ($result['success']) {
             wp_send_json_success(array(
@@ -691,56 +678,6 @@ class Lydia_WordPress {
             ));
         } else {
             wp_send_json_error(array('message' => $result['error']));
-        }
-    }
-    
-    /**
-     * Rechercher sur Wikipedia
-     */
-    private function search_wikipedia($query) {
-        try {
-            // Extraire le sujet principal
-            $keywords = $this->extract_keywords($query);
-            $search_term = implode(' ', array_slice($keywords, 0, 3));
-            
-            $url = 'https://fr.wikipedia.org/w/api.php?action=query&list=search&srsearch=' . 
-                   urlencode($search_term) . 
-                   '&utf8=&format=json&srlimit=1';
-            
-            $response = wp_remote_get($url);
-            
-            if (is_wp_error($response)) {
-                return '';
-            }
-            
-            $data = json_decode(wp_remote_retrieve_body($response), true);
-            
-            if (empty($data['query']['search'])) {
-                return '';
-            }
-            
-            $page_title = $data['query']['search'][0]['title'];
-            
-            // Récupérer le contenu de la page
-            $url = 'https://fr.wikipedia.org/w/api.php?action=query&titles=' . 
-                   urlencode($page_title) . 
-                   '&prop=extracts&exintro&explaintext&format=json';
-            
-            $response = wp_remote_get($url);
-            
-            if (is_wp_error($response)) {
-                return '';
-            }
-            
-            $data = json_decode(wp_remote_retrieve_body($response), true);
-            $pages = $data['query']['pages'];
-            $page = reset($pages);
-            
-            return $page['extract'] ?? '';
-            
-        } catch (Exception $e) {
-            lydia_log('Erreur Wikipedia', array('error' => $e->getMessage()));
-            return '';
         }
     }
     
@@ -788,8 +725,8 @@ class Lydia_WordPress {
                         'content' => $user_message
                     )
                 ),
-                'temperature' => 0.3,
-                'max_tokens' => 300 // Réduit de 500 à 300 pour des réponses plus rapides
+                'temperature' => 0.5, // Augmenté de 0.3 à 0.5 pour génération plus rapide
+                'max_tokens' => 250 // Réduit de 300 à 250 pour vitesse optimale
             );
             
             $response = wp_remote_post('https://api.mistral.ai/v1/chat/completions', array(
@@ -798,7 +735,7 @@ class Lydia_WordPress {
                     'Content-Type' => 'application/json'
                 ),
                 'body' => json_encode($body),
-                'timeout' => 60 // Augmenté de 30 à 60 secondes
+                'timeout' => 30 // Réduit à 30s - si plus long c'est qu'il y a un problème
             ));
             
             if (is_wp_error($response)) {
