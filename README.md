@@ -1,4 +1,4 @@
-# Lydia IA - Version 2.2.6 
+# Lydia - Version 2.2.6 
 
 <div align="center">
   <img src="assets/lydia-logo.jpg" alt="Lydia IA" width="200" style="border-radius: 50%;"></div>
