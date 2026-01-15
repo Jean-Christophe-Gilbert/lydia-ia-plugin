@@ -1,7 +1,9 @@
+# Lydia IA - Version 2.2.6 
+
 <div align="center">
-  <img src="assets/lydia-logo.jpg" alt="Lydia IA" width="200" style="border-radius: 50%;">
-  
-  Cette version finalise le design "Less is more" avec zéro élément superflu.
+  <img src="assets/lydia-logo.jpg" alt="Lydia IA" width="200" style="border-radius: 50%;"></div>
+
+Cette version finalise le design "Less is more" avec zéro élément superflu.
 
 ### Corrections finales (v2.2.6)
 - ✅ **Zéro URL dans le texte** : Mistral AI ne peut plus inclure d'URLs dans ses réponses
@@ -350,4 +352,3 @@ Si vous souhaitez une nouvelle fonctionnalité, contactez-nous ! Nous sommes à 
 *Développé par IA1 • Propulsé par Mistral AI • Open Source & Souverain*
 
 **Version 2.2.6 - Janvier 2025**
-
